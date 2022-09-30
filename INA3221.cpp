@@ -40,6 +40,14 @@ INA3221::INA3221(PinName sda, PinName scl, uint8_t addr, float shuntresistor_1, 
     //100KHz, as specified by the datasheet.
     _i2c->frequency(100000);
 }
+// Alternative with existing I2C
+INA3221::INA3221(I2C &i2c, uint8_t addr, float shuntresistor_1, float shuntresistor_2, float shuntresistor_3):_i2c(&i2c) {
+
+    _INA3221_i2caddr = addr;
+    _INA3221_shuntresistor_1 = shuntresistor_1;
+    _INA3221_shuntresistor_2 = shuntresistor_2;
+    _INA3221_shuntresistor_3 = shuntresistor_3;  
+}
 
 /**************************************************************************/
 /*! 
@@ -75,7 +83,7 @@ void INA3221::WriteRegister (uint8_t reg, uint16_t value)
     tx[0]=reg;                              // Set register pointer to reg
     tx[1]=((value >> 8) & 0xFF);
     tx[2]=(value & 0xFF);
-    _i2c->write(_INA3221_i2caddr,tx,3);     // Write word to pointer position 
+    _i2c->write(_INA3221_i2caddr << 1,tx,3);     // Write word to pointer position 
   
 }
 
@@ -90,8 +98,8 @@ uint16_t INA3221::ReadRegister(uint8_t reg)
     char rx[2];
     
     tx[0]=reg;
-    _i2c->write(_INA3221_i2caddr,tx,1);     // Set register pointer to reg
-    _i2c->read(_INA3221_i2caddr,rx,2);      // Read word from pointer positiom
+    _i2c->write(_INA3221_i2caddr << 1,tx,1);     // Set register pointer to reg
+    _i2c->read(_INA3221_i2caddr << 1,rx,2);      // Read word from pointer positiom
     return (int)rx[0]<<8|(int)rx[1];
 }
 

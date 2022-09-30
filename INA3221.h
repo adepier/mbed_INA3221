@@ -149,7 +149,9 @@
 class INA3221{
  public:
     INA3221(PinName sda , PinName scl, uint8_t addr = INA3221_ADDRESS, float shuntresistor_1= SHUNT_RESISTOR_VALUE, float shuntresistor_2= SHUNT_RESISTOR_VALUE, float shuntresistor_3= SHUNT_RESISTOR_VALUE);
+    INA3221(I2C &i2c, uint8_t addr = INA3221_ADDRESS, float shuntresistor_1= SHUNT_RESISTOR_VALUE, float shuntresistor_2= SHUNT_RESISTOR_VALUE, float shuntresistor_3= SHUNT_RESISTOR_VALUE);
    
+
     void SetShuntValues (float shuntresistor_1, float shuntresistor_2, float shuntresistor_3);  
     void SetI2CAdr(uint8_t);                                                                    
     void WriteRegister (uint8_t reg, uint16_t value);                                          
