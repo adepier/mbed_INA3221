@@ -1,8 +1,11 @@
 #include "mbed.h"
 #include "INA3221.h"
-
- #define I2C_SDA PA_10
-#define I2C_SCL PA_9  
+//L432KC
+//  #define I2C_SDA PA_10
+// #define I2C_SCL PA_9  
+//L452RE
+#define I2C_SDA PB_7
+#define I2C_SCL PB_6 
  I2C i2c(I2C_SDA, I2C_SCL);
  
 INA3221 INA(i2c, 0x43);
